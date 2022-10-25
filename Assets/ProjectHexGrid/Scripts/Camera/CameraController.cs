@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float scrollSizeMin = 1.0f;
     [SerializeField] private float scrollSizeMax = 3.0f;
 
-    public UnityEvent<Vector3> pointerClick;
+    public UnityEvent<Vector3> onClick;
 
     private Camera _camera;
 
@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            pointerClick?.Invoke(mouseWorldPosition);
+            onClick?.Invoke(mouseWorldPosition);
         }
     }
 

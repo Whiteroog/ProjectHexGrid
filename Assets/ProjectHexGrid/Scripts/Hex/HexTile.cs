@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,9 +11,8 @@ namespace ProjectHexGrid.Scripts.Hex
     {
         [Header("<-- Hex parameters -->")]
         public int cost = 1;
-        public HexType hexType = HexType.None;
-        
-        
+        public bool obstacle = false;
+
 #if UNITY_EDITOR
         [MenuItem("Assets/Create/HexTile")]
         public static void CreateHexTile()
@@ -23,13 +23,5 @@ namespace ProjectHexGrid.Scripts.Hex
             AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<HexTile>(), path);
         }
 #endif
-    }
-
-    public enum HexType
-    {
-        None,
-        Ground,
-        Road,
-        Obstacle
     }
 }
