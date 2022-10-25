@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ProjectHexGrid.Scripts.Hex;
+using ProjectHexGrid.Scripts.Pathfinding;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace ProjectHexGrid.Scripts.Managers
 {
@@ -10,7 +10,7 @@ namespace ProjectHexGrid.Scripts.Managers
         public HexGrid hexGrid;
 
         public GameObject highlightPrefab;
-        private List<GameObject> _highlightedTiles = new();
+        private List<HighlightTile> _highlightedTiles = new();
 
         public void SelectTile(Vector3 clickPosition)
         {
@@ -24,24 +24,30 @@ namespace ProjectHexGrid.Scripts.Managers
 
             DisableHighlightTiles();
 
-            foreach (Vector3Int neighbourCoord in hexGrid.GetNeighboursFor(hexGridCoord))
+            BfsResult bfsResult = GraphSearch.BfsGetRange(hexGrid, hexGridCoord, 5);
+            Vector3Int[] possiblePathways = bfsResult.GetRangePosition();
+
+            foreach (Vector3Int neighbourCoord in possiblePathways)
             {
-                GameObject highlightTile = Instantiate(
+                GameObject highlightTileObject = Instantiate(
                     highlightPrefab,
                     hexGrid.highlightMap.CellToLocal(neighbourCoord),
                     Quaternion.identity,
                     hexGrid.highlightMap.transform
                 );
                 
-                _highlightedTiles.Add(highlightTile);
+                _highlightedTiles.Add(highlightTileObject.GetComponent<HighlightTile>());
             }
         }
 
         private void DisableHighlightTiles()
         {
-            foreach (GameObject highlightTile in _highlightedTiles)
+            if (_highlightedTiles.Count == 0)
+                return;
+            
+            foreach (HighlightTile highlightTile in _highlightedTiles)
             {
-                highlightTile.SetActive(false);
+                Destroy(highlightTile.gameObject);
             }
             _highlightedTiles.Clear();
         }
