@@ -5,9 +5,11 @@ namespace ProjectHexGrid.Scripts.Hex
 {
     public class HighlightTile : MonoBehaviour
     {
-        public Text costText;
+        [SerializeField] private Text costText;
 
-        public void SetCostText(string cost) => costText.text = cost;
-
+        public string CostText
+        {
+            set => costText.text = value;
+        }
     }
 }

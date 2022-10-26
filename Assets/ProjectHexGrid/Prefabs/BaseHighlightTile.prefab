@@ -191,9 +191,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3031543025522686933}
   - component: {fileID: 7164610770161771078}
-  - component: {fileID: 3519212553687337923}
+  - component: {fileID: -226879491999189417}
   m_Layer: 0
-  m_Name: HighlightTile
+  m_Name: BaseHighlightTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,7 +268,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3519212553687337923
+--- !u!114 &-226879491999189417
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

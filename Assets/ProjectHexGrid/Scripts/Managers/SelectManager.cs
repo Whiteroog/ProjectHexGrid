@@ -9,7 +9,7 @@ namespace ProjectHexGrid.Scripts.Managers
     {
         public HexGrid hexGrid;
 
-        public GameObject highlightPrefab;
+        public GameObject highlightGroundTile;
         private List<HighlightTile> _highlightedTiles = new();
 
         public void SelectTile(Vector3 clickPosition)
@@ -27,16 +27,19 @@ namespace ProjectHexGrid.Scripts.Managers
             BfsResult bfsResult = GraphSearch.BfsGetRange(hexGrid, hexGridCoord, 5);
             Vector3Int[] possiblePathways = bfsResult.GetRangePosition();
 
-            foreach (Vector3Int neighbourCoord in possiblePathways)
+            foreach (Vector3Int pathway in possiblePathways)
             {
                 GameObject highlightTileObject = Instantiate(
-                    highlightPrefab,
-                    hexGrid.highlightMap.CellToLocal(neighbourCoord),
+                    highlightGroundTile,
+                    hexGrid.highlightMap.CellToLocal(pathway),
                     Quaternion.identity,
                     hexGrid.highlightMap.transform
                 );
+
+                HighlightTile highlightTile = highlightTileObject.GetComponent<HighlightTile>();
+                highlightTile.CostText = bfsResult.CostSoFar[pathway].ToString();
                 
-                _highlightedTiles.Add(highlightTileObject.GetComponent<HighlightTile>());
+                _highlightedTiles.Add(highlightTile);
             }
         }
 

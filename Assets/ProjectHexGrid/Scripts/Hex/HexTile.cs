@@ -14,7 +14,7 @@ namespace ProjectHexGrid.Scripts.Hex
         public bool obstacle = false;
 
 #if UNITY_EDITOR
-        [MenuItem("Assets/Create/HexTile")]
+        [MenuItem("Assets/Create/Hex/HexTile")]
         public static void CreateHexTile()
         {
             string path = EditorUtility.SaveFilePanelInProject("Save Hex Tile", "New Hex Tile", "Asset", "Save Hex Tile", "Assets");
