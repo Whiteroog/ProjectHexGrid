@@ -19,18 +19,36 @@ namespace ProjectHexGrid.Scripts.Unit
 
         public event Action<Unit> movementFinished;
 
+        public Animator animator;
+
         public int MovementPoints => movementPoints;
 
         private void Awake()
         {
             Vector3Int positionRelativeToGrid = hexGrid.groundMap.WorldToCell(transform.position);
             HexTile hexTile = hexGrid.groundMap.GetTile<HexTile>(positionRelativeToGrid);
-            
-            if(!hexGrid.groundMap.HasTile(positionRelativeToGrid))
+
+            if (!hexGrid.groundMap.HasTile(positionRelativeToGrid))
                 throw new Exception("the hero is not located on the grid");
 
             Memory.Units[positionRelativeToGrid] = gameObject;
             transform.position = hexGrid.groundMap.CellToLocal(positionRelativeToGrid);
+        }
+
+        public void SelectDirection(Vector3 clickPosition)
+        {
+            clickPosition.z = transform.position.z;
+            Vector3 direction = (clickPosition - transform.position).normalized;
+
+            animator.SetFloat("Speed", 1.0f);
+            animator.SetFloat("Look X", direction.x);
+            animator.SetFloat("Look Y", direction.y);
+        }
+
+        public void MoveThroughPath(Vector3[] currentPath)
+        {
+            _pathPositions = new(currentPath);
+            Vector3 firstTarget = _pathPositions.Dequeue();
         }
     }
 }
