@@ -90,6 +90,6 @@ namespace ProjectHexGrid.Scripts.Pathfinding
         public bool IsHexPositionInRange(Vector3Int position)
             => _visitedNodes.ContainsKey(position);
 
-        public Vector3Int[] GetRangePosition() => _visitedNodes.Keys.Skip(1).ToArray();
+        public Vector3Int[] GetRangePosition() => _visitedNodes.Keys.ToArray();
     }
 }

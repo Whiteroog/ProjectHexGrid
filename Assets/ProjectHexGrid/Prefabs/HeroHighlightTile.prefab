@@ -98,3 +98,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922db92df70c5bf49a32037abc445c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightTileSo: {fileID: 11400000, guid: e7fad4e0dda92604581fba0ce917e831, type: 2}
+  costText: {fileID: 0}

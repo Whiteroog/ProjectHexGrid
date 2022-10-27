@@ -190,6 +190,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hero
       objectReference: {fileID: 0}
+    - target: {fileID: 8062393489911002097, guid: 354c055c3d5f0e348950783de0d74abb,
+        type: 3}
+      propertyPath: hexGrid
+      value: 
+      objectReference: {fileID: 343217254}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 354c055c3d5f0e348950783de0d74abb, type: 3}
 --- !u!1 &288541672
@@ -6925,27 +6930,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundMap: {fileID: 288541675}
   highlightMap: {fileID: 689721447}
---- !u!1 &389535424 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 104536667328035010, guid: 354c055c3d5f0e348950783de0d74abb,
-    type: 3}
-  m_PrefabInstance: {fileID: 45452118}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &389535428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389535424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a9da31d4c33a8f4a9bada9931369e4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hexGrid: {fileID: 343217254}
-  movementPoints: 5
-  movementDuration: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7295,6 +7279,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03ba0277fd04689b9d57220b0f4eec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightGroundTile: {fileID: 11400000, guid: dadd183a6d0fd834aa783eac83d40c60,
+    type: 2}
+  highlightPath: {fileID: 11400000, guid: 6d439afc18db9dd4fa20eb8536b6ced6, type: 2}
+  highlightHeroTile: {fileID: 11400000, guid: e7fad4e0dda92604581fba0ce917e831, type: 2}
+--- !u!1 &1226320603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1226320605}
+  - component: {fileID: 1226320604}
+  m_Layer: 0
+  m_Name: MovementSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1226320604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226320603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a165bfa72af4122b09c86f006fdd591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightsManager: {fileID: 689721448}
+--- !u!4 &1226320605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226320603}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1854779645
 GameObject:
   m_ObjectHideFlags: 0
@@ -7325,10 +7358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hexGrid: {fileID: 343217254}
-  highlightGroundTile: {fileID: 8997985874690016406, guid: a365b9d19757d424e9e08b7f81333387,
-    type: 3}
-  highlightHeroTile: {fileID: 8997985874690016406, guid: eee5faf53a587314d8f675cf892515f8,
-    type: 3}
   highlightsManager: {fileID: 689721448}
 --- !u!4 &1854779647
 Transform:

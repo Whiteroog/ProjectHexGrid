@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 7164610770161771078}
   - component: {fileID: 8867201003430314117}
   m_Layer: 0
-  m_Name: BaseHighlightTile
+  m_Name: PathHighlightTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,7 +258,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.50980395}
+  m_Color: {r: 0.4943396, g: 1, b: 0.7243655, a: 0.50980395}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -280,5 +280,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922db92df70c5bf49a32037abc445c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightTileSo: {fileID: 11400000, guid: dadd183a6d0fd834aa783eac83d40c60, type: 2}
+  highlightTileSo: {fileID: 11400000, guid: 6d439afc18db9dd4fa20eb8536b6ced6, type: 2}
   costText: {fileID: 8088531362568102024}
