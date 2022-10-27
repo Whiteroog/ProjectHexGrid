@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.ProjectHexGrid.Scripts.Memory;
 using ProjectHexGrid.Scripts.Hex;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -6,10 +7,8 @@ using UnityEngine.Tilemaps;
 namespace ProjectHexGrid.Scripts.Managers
 {
     public class HighlightsManager : MonoBehaviour
-    {
-        private List<HexTile> _highlightedTiles = new();
-        
-        public HighlightTile AddHighlightTile(HexGrid hexGrid, GameObject highlightType, Vector3Int position)
+    {       
+        public BaseHighlightTile AddHighlightTile(HexGrid hexGrid, GameObject highlightType, Vector3Int position)
         {
             GameObject highlightTileObject = Instantiate(
                 highlightType,
@@ -17,25 +16,21 @@ namespace ProjectHexGrid.Scripts.Managers
                 Quaternion.identity,
                 transform
             );
-            
-            HexTile hexTile = hexGrid.groundMap.GetTile<HexTile>(position);
-            hexTile.highlightTile = highlightTileObject;
-            
-            _highlightedTiles.Add(hexTile);
+            Memory.highlightTiles[position] = highlightTileObject;
 
-            return highlightTileObject.GetComponent<HighlightTile>();;
+            return highlightTileObject.GetComponent<BaseHighlightTile>();;
         }
         
         public void DisableHighlightTiles()
         {
-            if (_highlightedTiles.Count == 0)
+            if (Memory.highlightTiles.Count == 0)
                 return;
             
-            foreach (HexTile highlightTile in _highlightedTiles)
+            foreach (GameObject highlightTile in Memory.highlightTiles.Values)
             {
-                Destroy(highlightTile.highlightTile);
+                Destroy(highlightTile);
             }
-            _highlightedTiles.Clear();
+            Memory.highlightTiles.Clear();
         }
     }
 }

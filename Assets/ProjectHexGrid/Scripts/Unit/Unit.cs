@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Assets.ProjectHexGrid.Scripts.Memory;
 using ProjectHexGrid.Scripts.Hex;
 using UnityEngine;
 
@@ -9,9 +10,8 @@ namespace ProjectHexGrid.Scripts.Unit
     public class Unit : MonoBehaviour
     {
         public HexGrid hexGrid;
-        
+
         [SerializeField] private int movementPoints = 5;
-        public int MovementPoints => movementPoints;
 
         [SerializeField] private float movementDuration = 1;
 
@@ -19,16 +19,18 @@ namespace ProjectHexGrid.Scripts.Unit
 
         public event Action<Unit> movementFinished;
 
+        public int MovementPoints => movementPoints;
+
         private void Awake()
         {
             Vector3Int positionRelativeToGrid = hexGrid.groundMap.WorldToCell(transform.position);
             HexTile hexTile = hexGrid.groundMap.GetTile<HexTile>(positionRelativeToGrid);
             
-            if(hexTile is null)
+            if(!hexGrid.groundMap.HasTile(positionRelativeToGrid))
                 throw new Exception("the hero is not located on the grid");
 
-            hexTile.placedObject = gameObject;
-            hexGrid.groundMap.CellToLocal(positionRelativeToGrid);
+            Memory.Units[positionRelativeToGrid] = gameObject;
+            transform.position = hexGrid.groundMap.CellToLocal(positionRelativeToGrid);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Assets.ProjectHexGrid.Scripts.Hex;
+using Assets.ProjectHexGrid.Scripts.Memory;
 using ProjectHexGrid.Scripts.Hex;
 using ProjectHexGrid.Scripts.Pathfinding;
 using UnityEngine;
@@ -19,14 +21,13 @@ namespace ProjectHexGrid.Scripts.Managers
             clickPosition.z = hexGrid.groundMap.transform.position.z;
 
             Vector3Int hexGridCoord = hexGrid.groundMap.WorldToCell(clickPosition);
-            HexTile hexTileSelected = hexGrid.groundMap.GetTile<HexTile>(hexGridCoord);
 
-            if (!hexTileSelected)
+            if (!hexGrid.groundMap.HasTile(hexGridCoord))
                 return;
 
             highlightsManager.DisableHighlightTiles();
 
-            if (!hexTileSelected.placedObject)
+            if (!Memory.Units.ContainsKey(hexGridCoord))
                 return;
             
             highlightsManager.AddHighlightTile(hexGrid, highlightHeroTile, hexGridCoord);
@@ -36,9 +37,12 @@ namespace ProjectHexGrid.Scripts.Managers
 
             foreach (Vector3Int pathway in possiblePathways)
             {
-                HighlightTile highlightTile = highlightsManager.AddHighlightTile(hexGrid, highlightGroundTile, pathway);
-                
-                highlightTile.CostText = bfsResult.CostSoFar[pathway].ToString();
+                BaseHighlightTile highlightTile = highlightsManager.AddHighlightTile(hexGrid, highlightGroundTile, pathway);
+
+                if(highlightTile is HighlightTileWithCost highlightTileWithCost)
+                {
+                    highlightTileWithCost.CostText = bfsResult.CostSoFar[pathway].ToString();
+                }
             }
         }
     }

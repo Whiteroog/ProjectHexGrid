@@ -58,8 +58,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1926231723
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &773635218995256869
 MonoBehaviour:
@@ -191,7 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3031543025522686933}
   - component: {fileID: 7164610770161771078}
-  - component: {fileID: -226879491999189417}
+  - component: {fileID: -3545138012937843779}
   m_Layer: 0
   m_Name: BaseHighlightTile
   m_TagString: Untagged
@@ -268,7 +268,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-226879491999189417
+--- !u!114 &-3545138012937843779
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8997985874690016406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 922db92df70c5bf49a32037abc445c71, type: 3}
+  m_Script: {fileID: 11500000, guid: 79ee3b57f88c4564093e269905fea527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   costText: {fileID: 8088531362568102024}
