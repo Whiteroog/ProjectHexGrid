@@ -12,8 +12,8 @@ namespace ProjectHexGrid.Scripts.Systems
     {
         public HighlightsManager highlightsManager;
 
-        private BfsResult _movementRange = new BfsResult();
-        private Vector3Int[] _currentPath;
+        private BfsResult _movementRange;
+        private Vector3Int[] _currentPath = new Vector3Int[]{};
 
         public void HideRange()
         {
@@ -39,14 +39,20 @@ namespace ProjectHexGrid.Scripts.Systems
 
         private void CalculateRange(Unit selectedUnit, HexGrid hexGrid)
         {
-            _movementRange = GraphSearch.BfsGetRange(hexGrid, selectedUnit.Coordinate, selectedUnit.MovementPoints);
+            _movementRange = GraphSearch.BfsGetRange(hexGrid, selectedUnit.coordinate, selectedUnit.MovementPoints);
         }
 
-        public void ShowPath(Vector3Int selectedHexPosition, HexGrid hexGrid)
+        public void ShowPath(Vector3Int selectedHexCoord, HexGrid hexGrid)
         {
-            if (_movementRange.GetRangePosition().Contains(selectedHexPosition))
+            if (_movementRange.GetRangePosition().Contains(selectedHexCoord))
             {
-                _currentPath = _movementRange.GetPathTo(selectedHexPosition);
+                foreach (Vector3Int hexPosition in _currentPath)
+                {
+                    highlightsManager.ReplaceHighlightTiles(hexGrid, hexPosition, HighlightType.GroundSelect);
+                }
+                
+                _currentPath = _movementRange.GetPathTo(selectedHexCoord);
+                
                 foreach (Vector3Int hexPosition in _currentPath)
                 {
                     highlightsManager.ReplaceHighlightTiles(hexGrid, hexPosition, HighlightType.PathSelect);
@@ -59,7 +65,7 @@ namespace ProjectHexGrid.Scripts.Systems
             selectedUnit.MoveThroughPath(_currentPath.Select(pos => hexGrid.groundMap.CellToLocal(pos)).ToArray());
         }
 
-        public bool IsHexInRange(Vector3Int hexPosition)
-            => _movementRange.IsHexPositionInRange(hexPosition);
+        public bool IsHexInRange(Vector3Int hexCoord)
+            => _movementRange.IsHexPositionInRange(hexCoord);
     }
 }

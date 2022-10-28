@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.ProjectHexGrid.Scripts.Memory;
-using ProjectHexGrid.Scripts.Hex;
+using ProjectHexGrid.Scripts.Managers;
 using UnityEngine;
 
 namespace ProjectHexGrid.Scripts.Hex
@@ -10,32 +9,20 @@ namespace ProjectHexGrid.Scripts.Hex
     [SelectionBase]
     public class Unit : MonoBehaviour
     {
-        public HexGrid hexGrid;
-
+        public  UnitManager unitManager;
         [SerializeField] private int movementPoints = 5;
         [SerializeField] private float movementDuration = 1;
 
         private Queue<Vector3> _pathPositions = new();
 
-        private Vector3Int _coordinate;
-        
         public event Action<Unit> MovementFinished;
 
         public Animator animator;
 
+        public Vector3Int coordinate;
+        
         public int MovementPoints => movementPoints;
-        public Vector3Int Coordinate => _coordinate;
-
-        private void Awake()
-        {
-            _coordinate = hexGrid.groundMap.WorldToCell(transform.position);
-
-            if (!hexGrid.groundMap.HasTile(_coordinate))
-                throw new Exception("the hero is not located on the grid");
-            
-            transform.position = hexGrid.groundMap.CellToLocal(_coordinate);
-            Memory.Units[_coordinate] = gameObject;
-        }
+        
 
         private void MovementAnimation(Vector3 movementDirection, float speedMoving)
         {
@@ -73,11 +60,8 @@ namespace ProjectHexGrid.Scripts.Hex
             }
             else
             {
-                Memory.Units.Remove(_coordinate);
-                _coordinate = hexGrid.groundMap.WorldToCell(transform.position);
-                Memory.Units[_coordinate] = gameObject;
-                
                 MovementAnimation(Vector3.zero, 0.0f);
+                unitManager.UpdateUnitCoordinate(this);
                 MovementFinished?.Invoke(this);
             }
         }

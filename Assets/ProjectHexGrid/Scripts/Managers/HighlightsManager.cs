@@ -3,6 +3,7 @@ using Assets.ProjectHexGrid.Scripts.Memory;
 using ProjectHexGrid.ScriptableObjects.Highlight;
 using ProjectHexGrid.Scripts.Hex;
 using ProjectHexGrid.Scripts.Highlight;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ProjectHexGrid.Scripts.Managers
@@ -49,13 +50,21 @@ namespace ProjectHexGrid.Scripts.Managers
 
         public void ReplaceHighlightTiles(HexGrid hexGrid, Vector3Int replacedTile, HighlightType highlightType)
         {
-            Destroy(Memory.highlightTiles[replacedTile]);
+            GameObject oldHighlightTileObject = Memory.highlightTiles[replacedTile];
             GameObject newHighlightTileObject = Instantiate(
                 GetHighlightOfType(highlightType).highlightObject,
                 hexGrid.highlightMap.CellToLocal(replacedTile),
                 Quaternion.identity,
                 transform
             );
+
+            HighlightTile oldHighlightTile = oldHighlightTileObject.GetComponent<HighlightTile>();
+            HighlightTile newHighlightTile = newHighlightTileObject.GetComponent<HighlightTile>();
+
+            newHighlightTile.CostText = oldHighlightTile.CostText;
+            
+            Destroy(oldHighlightTileObject);
+            
             Memory.highlightTiles[replacedTile] = newHighlightTileObject;
         }
     }

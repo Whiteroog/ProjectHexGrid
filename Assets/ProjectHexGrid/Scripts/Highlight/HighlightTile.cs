@@ -16,6 +16,7 @@ namespace ProjectHexGrid.Scripts.Highlight
             {
                 if(costText) costText.text = value;
             }
+            get => costText is not null ? costText.text : "";
         }
     }
 }

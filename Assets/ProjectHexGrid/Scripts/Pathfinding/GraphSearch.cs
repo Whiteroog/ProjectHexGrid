@@ -70,13 +70,13 @@ namespace ProjectHexGrid.Scripts.Pathfinding
     public struct BfsResult
     {
         private Dictionary<Vector3Int, Vector3Int?> _visitedNodes;
-        
-        private Dictionary<Vector3Int, int> _costSoFar;
-        public Dictionary<Vector3Int, int> CostSoFar => _costSoFar;
+
+        public Dictionary<Vector3Int, int> CostSoFar { get; }
+
         public BfsResult(Dictionary<Vector3Int, Vector3Int?> visitedNodes, Dictionary<Vector3Int, int> costSoFar)
         {
             _visitedNodes = visitedNodes;
-            _costSoFar = costSoFar;
+            CostSoFar = costSoFar;
         }
 
         public Vector3Int[] GetPathTo(Vector3Int destination)
@@ -87,8 +87,8 @@ namespace ProjectHexGrid.Scripts.Pathfinding
             return GraphSearch.GeneratePathBfs(destination, _visitedNodes);
         }
 
-        public bool IsHexPositionInRange(Vector3Int position)
-            => _visitedNodes.ContainsKey(position);
+        public bool IsHexPositionInRange(Vector3Int hexCoord)
+            => _visitedNodes.ContainsKey(hexCoord);
 
         public Vector3Int[] GetRangePosition() => _visitedNodes.Keys.ToArray();
     }
