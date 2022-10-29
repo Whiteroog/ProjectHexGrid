@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highlightObject: {fileID: 8997985874690016406, guid: ee8cd088391e46e46bc93edb7dde5947,
     type: 3}
-  highlightType: 1
+  typeHighlight: 1

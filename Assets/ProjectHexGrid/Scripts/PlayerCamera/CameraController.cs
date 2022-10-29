@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ProjectHexGrid.Scripts.Camera
+namespace ProjectHexGrid.Scripts.PlayerCamera
 {
     public class CameraController : MonoBehaviour
     {
@@ -21,14 +22,17 @@ namespace ProjectHexGrid.Scripts.Camera
 
         public UnityEvent<Vector3> onClick;
 
-        private UnityEngine.Camera _camera;
+        private Camera _camera;
 
         private Vector3 _pivotMouse = Vector3.zero;
         private bool _isDrag = false;
 
         private void Awake()
         {
-            _camera = GetComponent<UnityEngine.Camera>();
+            _camera = Camera.main;
+
+            if (_camera is null)
+                throw new Exception("main camera is not set");
 
             _camera.orthographicSize = scrollSizeMax;
         }

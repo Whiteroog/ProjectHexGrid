@@ -1,26 +1,34 @@
+﻿using System;
 using System.Collections.Generic;
+using ProjectHexGrid.Scripts.Hex;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace ProjectHexGrid.Scripts.Hex
+namespace ProjectHexGrid.Scripts.Managers
 {
-    public class HexGrid : MonoBehaviour
+    public class MainMapManager : MonoBehaviour
     {
-        public Tilemap groundMap;
-        public Tilemap highlightMap;
+        private Tilemap _mainMap;
         
+        public Tilemap Map => _mainMap;
+
+        private void Awake()
+        {
+            _mainMap = GetComponent<Tilemap>();
+        }
+
         public List<Vector3Int> GetNeighboursFor(Vector3Int centerHexCoord)
         {
             List<Vector3Int> neighbourCoords = new();
 
-            if (!groundMap.HasTile(centerHexCoord))
+            if (_mainMap.HasTile(centerHexCoord) == false)
                 return neighbourCoords;
 
-            foreach (Vector3Int directionCoord in HexDirections.GetDirectionCoords(centerHexCoord.y))
+            foreach (Vector3Int directionCoord in Direction.GetDirectionCoords(centerHexCoord.y))
             {
                 Vector3Int neighbourCoord = centerHexCoord + directionCoord;
                 
-                if(!groundMap.HasTile(neighbourCoord))
+                if(_mainMap.HasTile(neighbourCoord) == false)
                     continue;
 
                 neighbourCoords.Add(neighbourCoord);
@@ -29,17 +37,17 @@ namespace ProjectHexGrid.Scripts.Hex
             return neighbourCoords;
         }
     }
-
-    public static class HexDirections
+    
+    public static class Direction
     {
-        private static Vector3Int[] _directionsOffsetEven =
+        private static readonly Vector3Int[] DirectionsOffsetEven =
         {
             new (-1, 1, 0), new (0, 1, 0),
             new (-1, 0, 0), new (1, 0, 0),
             new (-1, -1, 0), new (0, -1, 0)
         };
         
-        private static Vector3Int[] _directionsOffsetOdd =
+        private static readonly Vector3Int[] DirectionsOffsetOdd =
         {
             new (0, 1, 0), new (1, 1, 0),
             new (-1, 0, 0), new (1, 0, 0),
@@ -47,6 +55,6 @@ namespace ProjectHexGrid.Scripts.Hex
         };
 
         public static Vector3Int[] GetDirectionCoords(int y)
-            => y % 2 == 0 ? _directionsOffsetEven : _directionsOffsetOdd;
+            => y % 2 == 0 ? DirectionsOffsetEven : DirectionsOffsetOdd;
     }
 }

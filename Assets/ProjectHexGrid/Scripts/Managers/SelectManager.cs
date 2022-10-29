@@ -1,6 +1,4 @@
 ﻿using System;
-using Assets.ProjectHexGrid.Scripts.Memory;
-using ProjectHexGrid.Scripts.Hex;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,26 +6,26 @@ namespace ProjectHexGrid.Scripts.Managers
 {
     public class SelectManager : MonoBehaviour
     {
-        public HexGrid hexGrid;
+        [SerializeField] private UnitManager unitManager;
 
         public UnityEvent<Vector3Int> onUnitSelected;
         public UnityEvent<Vector3Int> groundSelected;
 
         public void SelectTile(Vector3 clickPosition)
         {
-            clickPosition.z = hexGrid.groundMap.transform.position.z;
-            Vector3Int positionOnGrid = hexGrid.groundMap.WorldToCell(clickPosition);
+            clickPosition.z = unitManager.transform.position.z;
+            Vector3Int clickPositionOnGrid = unitManager.Map.WorldToCell(clickPosition);
 
-            if (UnitSelected(positionOnGrid))
+            if (UnitSelected(clickPositionOnGrid))
             {
-                onUnitSelected?.Invoke(positionOnGrid);
+                onUnitSelected?.Invoke(clickPositionOnGrid);
             }
             else
             {
-                groundSelected?.Invoke(positionOnGrid);
+                groundSelected?.Invoke(clickPositionOnGrid);
             }
         }
 
-        private bool UnitSelected(Vector3Int positionOnGrid) => Memory.Units.ContainsKey(positionOnGrid);
+        private bool UnitSelected(Vector3Int positionOnGrid) => unitManager.GetUnits().ContainsKey(positionOnGrid);
     }
 }

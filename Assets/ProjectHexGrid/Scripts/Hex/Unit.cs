@@ -9,20 +9,20 @@ namespace ProjectHexGrid.Scripts.Hex
     [SelectionBase]
     public class Unit : MonoBehaviour
     {
-        public  UnitManager unitManager;
-        [SerializeField] private int movementPoints = 5;
-        [SerializeField] private float movementDuration = 1;
-
-        private Queue<Vector3> _pathPositions = new();
-
         public event Action<Unit> MovementFinished;
 
-        public Animator animator;
+        [SerializeField] private int movementPoints = 5;
+        [SerializeField] private float movementDuration = 1;
+        [SerializeField] private Animator animator;
 
-        public Vector3Int coordinate;
+        private UnitManager _unitManager;
         
+        private Queue<Vector3> _pathPositions = new();
+
+        public Vector3Int Coordinate { set; get; }
         public int MovementPoints => movementPoints;
-        
+
+        public void SetUnitManager(UnitManager unitManager) => _unitManager = unitManager;
 
         private void MovementAnimation(Vector3 movementDirection, float speedMoving)
         {
@@ -61,7 +61,7 @@ namespace ProjectHexGrid.Scripts.Hex
             else
             {
                 MovementAnimation(Vector3.zero, 0.0f);
-                unitManager.UpdateUnitCoordinate(this);
+                _unitManager.UpdateUnitCoordinate(this);
                 MovementFinished?.Invoke(this);
             }
         }

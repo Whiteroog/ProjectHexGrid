@@ -10,62 +10,66 @@ namespace ProjectHexGrid.Scripts.Systems
 {
     public class MovementSystem : MonoBehaviour
     {
-        public HighlightsManager highlightsManager;
+        public HighlightManager highlightManager;
 
         private BfsResult _movementRange;
-        private Vector3Int[] _currentPath = new Vector3Int[]{};
+        private Vector3Int[] _currentPath = {};
 
-        public void HideRange()
+        public bool IsHexInRange(Vector3Int hexCoord) => _movementRange.IsHexPositionInRange(hexCoord);
+        
+        private void CalculateRange(Unit selectedUnit, MainMapManager mainMap)
         {
-            highlightsManager.DisableHighlightTiles();
-            _movementRange = new BfsResult();
+            _movementRange = GraphSearch.BfsGetRange(mainMap, selectedUnit.Coordinate, selectedUnit.MovementPoints);
         }
 
-        public void ShowRange(Unit selectedUnit, HexGrid hexGrid)
+        public void ShowRange(Unit selectedUnit, MainMapManager mainMap)
         {
-            CalculateRange(selectedUnit, hexGrid);
-            
-            highlightsManager.AddHighlightTile(hexGrid, HighlightType.HeroSelect, _movementRange.GetRangePosition()[0]);
+            CalculateRange(selectedUnit, mainMap);
+
+            highlightManager.EnableHighlightTiles(TypeHighlight.HeroSelect, _movementRange.GetRangePosition()[0]);
+
             foreach (Vector3Int path in _movementRange.GetRangePosition().Skip(1))
             {
-                HighlightTile highlightTile = highlightsManager.AddHighlightTile(hexGrid, HighlightType.GroundSelect, path);
+                HighlightTile highlightTile = highlightManager.EnableHighlightTiles(TypeHighlight.MainSelect, path);
 
-                if(highlightTile.highlightTileSo.highlightType is HighlightType.GroundSelect)
+                if (highlightTile is HighlightTileWithCost highlightTileWithCost)
                 {
-                    highlightTile.CostText = _movementRange.CostSoFar[path].ToString();
+                    highlightTileWithCost.CostText = _movementRange.CostSoFar[path].ToString();
                 }
             }
         }
 
-        private void CalculateRange(Unit selectedUnit, HexGrid hexGrid)
+        public void HideRange()
         {
-            _movementRange = GraphSearch.BfsGetRange(hexGrid, selectedUnit.coordinate, selectedUnit.MovementPoints);
+            highlightManager.DisableHighlightTiles();
+            _movementRange = new BfsResult();
         }
 
-        public void ShowPath(Vector3Int selectedHexCoord, HexGrid hexGrid)
+        public void ShowPath(Vector3Int selectedHexCoord)
         {
-            if (_movementRange.GetRangePosition().Contains(selectedHexCoord))
+            if (IsHexInRange(selectedHexCoord))
             {
                 foreach (Vector3Int hexPosition in _currentPath)
                 {
-                    highlightsManager.ReplaceHighlightTiles(hexGrid, hexPosition, HighlightType.GroundSelect);
+                    highlightManager.ReplaceHighlightTiles(TypeHighlight.PathSelect, TypeHighlight.MainSelect, hexPosition);
                 }
                 
                 _currentPath = _movementRange.GetPathTo(selectedHexCoord);
                 
                 foreach (Vector3Int hexPosition in _currentPath)
                 {
-                    highlightsManager.ReplaceHighlightTiles(hexGrid, hexPosition, HighlightType.PathSelect);
+                    highlightManager.ReplaceHighlightTiles(TypeHighlight.MainSelect, TypeHighlight.PathSelect, hexPosition);
                 }
             }
         }
 
-        public void MoveUnit(Unit selectedUnit, HexGrid hexGrid)
+        public void MoveUnit(Unit selectedUnit, MainMapManager mainMap)
         {
-            selectedUnit.MoveThroughPath(_currentPath.Select(pos => hexGrid.groundMap.CellToLocal(pos)).ToArray());
+            Vector3[] pathCoordConvertedToPathPositions = _currentPath.Select(pos => mainMap.Map.CellToLocal(pos)).ToArray();
+            selectedUnit.MoveThroughPath(pathCoordConvertedToPathPositions);
+            
+            highlightManager.ClearHighlightTiles();
+            _currentPath = new Vector3Int[]{};
         }
-
-        public bool IsHexInRange(Vector3Int hexCoord)
-            => _movementRange.IsHexPositionInRange(hexCoord);
     }
 }
